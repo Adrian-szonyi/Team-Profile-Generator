@@ -50,6 +50,7 @@ function generateHtml(engineers, interns, managers) {
     `;
   }
 
+}
 // Create arrays to store employee information
 
 // While the user has not selected 'Finished with the Team'...
@@ -106,6 +107,7 @@ const generateHTML = (answers) =>
 `;
 
 const init = async () => {
+  promptUser().then(async (Manageranswer) => {
     const engineers = [];
     const interns = [];
     const managers = [];
@@ -199,7 +201,7 @@ const init = async () => {
 
       console.log("The file has been saved!");
     });
-  
+  });
 };
 
 init();
