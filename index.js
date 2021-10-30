@@ -32,32 +32,95 @@ const promptUser = () => {
   ]);
 };
 
-function generateHtml(engineers, interns, managers) {
-  function generateEngineer(engineer) {
-    return `
-        <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">${engineer.Name}</h5>
-          <h4 class="card-title">Manager</h4>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">Email: <a href="mailto:${engineer.Email}" class="card-link">${engineer.Email}</a></li>
-          <li class="list-group-item">Github: <a href="https://github.com/${engineer.Github}" class="card-link">https://github.com/${engineer.Github}</a></li>
-          <li class="list-group-item">Employee ID: ${engineer.EmployeeID}</li>
-        <li class="list-group-item">Office Number: ${engineer.OfficeNumber}</li>
-        </ul>
-      </div>
-    `;
-  }
+// function generateHtml(engineers, interns, managers) {
+//   function generateEngineer(engineer) {
+//     return `
+//         <div class="card" style="width: 18rem;">
+//         <div class="card-body">
+//           <h5 class="card-title">${engineer.Name}</h5>
+//           <h4 class="card-title">Manager</h4>
+//         </div>
+//         <ul class="list-group list-group-flush">
+//           <li class="list-group-item">Email: <a href="mailto:${engineer.Email}" class="card-link">${engineer.Email}</a></li>
+//           <li class="list-group-item">Github: <a href="https://github.com/${engineer.Github}" class="card-link">https://github.com/${engineer.Github}</a></li>
+//           <li class="list-group-item">Employee ID: ${engineer.EmployeeID}</li>
+//         <li class="list-group-item">Office Number: ${engineer.OfficeNumber}</li>
+//         </ul>
+//       </div>
+//     `;
+//   }
 
-}
+// }
+
+const promptEngineer = () => {
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "Name",
+      message: "What is your Engineer's name?",
+    },
+    {
+      type: "input",
+      name: "Email",
+      message: "What is their email address?",
+    },
+
+    {
+      type: "input",
+      name: "Github",
+      message: "What is their Github username?",
+    },
+    {
+      type: "list",
+      name: "Role",
+      message: "Would you like to add to your team?",
+      choices: ["Engineer", "Intern", "Team finished"],
+    },
+  ]);
+};
+
+const promptIntern = () => {
+  return inquirer.prompt([
+    {
+      type: "input",
+      name: "Name",
+      message: "What is your intern's name?",
+    },
+    {
+      type: "input",
+      name: "Email",
+      message: "What is their email address?",
+    },
+    {
+      type: "input",
+      name: "School",
+      message: "What school do they go to?",
+    },
+    {
+      type: "input",
+      name: "Github",
+      message: "What is their Github username?",
+    },
+    {
+      type: "list",
+      name: "Role",
+      message: "Would you like to add to your team?",
+      choices: ["Engineer", "Intern", "Team finished"],
+    },
+  ]);
+};
+
 // Create arrays to store employee information
 
 // While the user has not selected 'Finished with the Team'...
 
 // fs.writeFileSync("output.html", generateHtml(engineers, interns, managers));
 
-const generateHTML = (answers) =>
+const generatehtml = (ManagerAnswers, internAnswers, engineerAnswers) => {
+
+let html = ""
+
+html +=
   `
   <!DOCTYPE html>
   <html lang="en">
@@ -90,118 +153,99 @@ const generateHTML = (answers) =>
     <body>
     <div class="card" style="width: 18rem;">
     <div class="card-body">
-      <h5 class="card-title">${answers.Name}</h5>
+      <h5 class="card-title">${ManagerAnswers.Name}</h5>
       <h4 class="card-title">Manager</h4>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">Email: <a href="mailto:${answers.Email}" class="card-link">${answers.Email}</a></li>
-      <li class="list-group-item">Github: <a href="https://github.com/${answers.Github}" class="card-link">https://github.com/${answers.Github}</a></li>
-      <li class="list-group-item">Employee ID: ${answers.EmployeeID}</li>
-    <li class="list-group-item">Office Number: ${answers.OfficeNumber}</li>
+      <li class="list-group-item">Email: <a href="mailto:${ManagerAnswers.Email}" class="card-link">${ManagerAnswers.Email}</a></li>
+      <li class="list-group-item">Github: <a href="https://github.com/${ManagerAnswers.Github}" class="card-link">https://github.com/${ManagerAnswers.Github}</a></li>
+      <li class="list-group-item">Employee ID: ${ManagerAnswers.EmployeeID}</li>
+    <li class="list-group-item">Office Number: ${ManagerAnswers.OfficeNumber}</li>
     </ul>
   </div>
+`
+engineers.foreach( (engineerAnswers) => {
+  html += 
+  `   <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${engineerAnswers.Name}</h5>
+    <h4 class="card-title">Manager</h4>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Email: <a href="mailto:${engineerAnswers.Email}" class="card-link">${engineerAnswers.Email}</a></li>
+    <li class="list-group-item">Github: <a href="https://github.com/${engineerAnswers.Github}" class="card-link">https://github.com/${engineerAnswers.Github}</a></li>
+    <li class="list-group-item">Employee ID: ${engineerAnswers.EmployeeID}</li>
+  <li class="list-group-item">Office Number: ${engineerAnswers.OfficeNumber}</li>
+  </ul>
+</div>`
 
+})
+
+interns.foreach( (internAnswers) => {
+  html += 
+  `   <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${internAnswers.Name}</h5>
+    <h4 class="card-title">Manager</h4>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Email: <a href="mailto:${internAnswers.Email}" class="card-link">${internAnswers.Email}</a></li>
+    <li class="list-group-item">Github: <a href="https://github.com/${internAnswers.Github}" class="card-link">https://github.com/${internAnswers.Github}</a></li>
+    <li class="list-group-item">Employee ID: ${internAnswers.EmployeeID}</li>
+  <li class="list-group-item">Office Number: ${internAnswers.OfficeNumber}</li>
+  </ul>
+</div>`
+
+})
+
+html += `
     </body>
   </html>
   
 `;
-
+}
 const init = async () => {
-  promptUser().then(async (Manageranswer) => {
+  const ManagerAnswers = await promptUser()
     const engineers = [];
     const interns = [];
-    const managers = [];
+    const manager = [];
 
     // Flag that tells our looping program when to terminate
     let teamComplete = false;
-    const promptEngineer = () => {
-      return inquirer.prompt([
-        {
-          type: "input",
-          name: "Name",
-          message: "What is your Engineer's name?",
-        },
-        {
-          type: "input",
-          name: "Email",
-          message: "What is their email address?",
-        },
-
-        {
-          type: "input",
-          name: "Github",
-          message: "What is their Github username?",
-        },
-        {
-          type: "list",
-          name: "Role",
-          message: "Would you like to add to your team?",
-          choices: ["Engineer", "Intern", "Team finished"],
-        },
-      ]);
-    };
-
-    const promptIntern = () => {
-      return inquirer.prompt([
-        {
-          type: "input",
-          name: "Name",
-          message: "What is your intern's name?",
-        },
-        {
-          type: "input",
-          name: "Email",
-          message: "What is their email address?",
-        },
-        {
-          type: "input",
-          name: "School",
-          message: "What school do they go to?",
-        },
-        {
-          type: "input",
-          name: "Github",
-          message: "What is their Github username?",
-        },
-        {
-          type: "list",
-          name: "Role",
-          message: "Would you like to add to your team?",
-          choices: ["Engineer", "Intern", "Team finished"],
-        },
-      ]);
-    };
+ 
+    // await promptUser().then(async (answers) => {
+    //   console.log(answers);
+let currentRole = ManagerAnswers.Role
+manager.push(ManagerAnswers);
     while (!teamComplete) {
       // Ask the user who the new employee is
-      await promptUser().then(async (answers) => {
-        console.log(answers);
-        switch (answers.role) {
+      switch (currentRole) {
           case "Engineer":
-            await promptEngineer().then((engineerAnswers) => {
+            const engineerAnswers = await promptEngineer()
               console.log(engineerAnswers);
+              currentRole = engineerAnswers.Role
               engineers.push(engineerAnswers);
-            });
             break;
           case "Intern":
             // ...
-            await promptIntern().then((internAnswers) => {
-              intern.push(internAnswers);
-            });
+           const internAnswers = await promptIntern()
+           currentRole = internAnswers.Role
+              interns.push(internAnswers);
             break;
-          case "Finished with the Team":
+          case "Team finished":
             // End the program (by breaking out of the while loop)
             teamComplete = true;
             break;
         }
-      });
-    }
-    fs.writeFile(`index-${Date.now()}.html`, generateHTML(answers), (err) => {
-      console.log(answers);
-      if (err) throw err;
-
-      console.log("The file has been saved!");
-    });
-  });
+      };
+      fs.writeFile(`index-${Date.now()}.html`, generatehtml(ManagerAnswers, internAnswers, engineerAnswers), (err) => {
+        // console.log(answers);
+        console.log(html);
+        if (err) throw err;
+  
+        console.log("The file has been saved!");
+      })
 };
+
 
 init();
