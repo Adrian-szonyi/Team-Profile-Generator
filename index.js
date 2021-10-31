@@ -204,7 +204,7 @@ const generatehtml = (answers) => {
 };
 const employees = [];
 const init = async () => {
-  const ManagerAnswers = await promptUser();
+  const answers = await promptUser();
   const engineers = [];
   const interns = [];
   const manager = [];
@@ -214,8 +214,8 @@ const init = async () => {
 
   // await promptUser().then(async (answers) => {
   //   console.log(answers);
-  let currentRole = ManagerAnswers.Role;
-  manager.push(ManagerAnswers);
+  let currentRole = answers.Role;
+  manager.push(answers);
   while (!teamComplete) {
     // Ask the user who the new employee is
     switch (currentRole) {
