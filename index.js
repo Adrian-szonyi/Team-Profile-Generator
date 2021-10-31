@@ -123,7 +123,8 @@ const promptIntern = () => {
 const generatehtml = (answers) => {
   let html = "";
 
-  html += `
+  html += 
+  `
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -198,9 +199,7 @@ const generatehtml = (answers) => {
 
   html += `
     </body>
-  </html>
-  
-`;
+  </html>`;
 };
 const employees = [];
 const init = async () => {
@@ -237,17 +236,14 @@ const init = async () => {
         break;
     }
   }
-  fs.writeFile(
-    `index-${Date.now()}.html`,
-    generatehtml(answers),
-    (err) => {
-      // console.log(answers);
 
-      if (err) throw err;
+  
+  fs.writeFile(`index-${Date.now()}.html`, generatehtml(answers), (err) => {
+    if (err) throw err;
 
       console.log("The file has been saved!");
-    }
-  );
+  })
+  
   const newManager = new Manager(
     manager.Name,
     manager.EmployeeID,
