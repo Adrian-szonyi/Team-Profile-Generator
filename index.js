@@ -1,5 +1,9 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const Employee = require("./lib/Employee");
+const Manager = require("./lib/Manager");
+const Intern = require("./lib/Intern");
+const Engineer = require("./lib/Engineer");
 
 const promptUser = () => {
   return inquirer.prompt([
@@ -116,12 +120,10 @@ const promptIntern = () => {
 
 // fs.writeFileSync("output.html", generateHtml(engineers, interns, managers));
 
-const generatehtml = (ManagerAnswers, internAnswers, engineerAnswers) => {
+const generatehtml = (answers) => {
+  let html = "";
 
-let html = ""
-
-html +=
-  `
+  html += `
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -153,99 +155,113 @@ html +=
     <body>
     <div class="card" style="width: 18rem;">
     <div class="card-body">
-      <h5 class="card-title">${ManagerAnswers.Name}</h5>
+      <h5 class="card-title">${answers.Name}</h5>
       <h4 class="card-title">Manager</h4>
     </div>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">Email: <a href="mailto:${ManagerAnswers.Email}" class="card-link">${ManagerAnswers.Email}</a></li>
-      <li class="list-group-item">Github: <a href="https://github.com/${ManagerAnswers.Github}" class="card-link">https://github.com/${ManagerAnswers.Github}</a></li>
-      <li class="list-group-item">Employee ID: ${ManagerAnswers.EmployeeID}</li>
-    <li class="list-group-item">Office Number: ${ManagerAnswers.OfficeNumber}</li>
+      <li class="list-group-item">Email: <a href="mailto:${answers.Email}" class="card-link">${answers.Email}</a></li>
+      <li class="list-group-item">Github: <a href="https://github.com/${answers.Github}" class="card-link">https://github.com/${answers.Github}</a></li>
+      <li class="list-group-item">Employee ID: ${answers.EmployeeID}</li>
+    <li class="list-group-item">Office Number: ${answers.OfficeNumber}</li>
     </ul>
   </div>
-`
-engineers.foreach( (engineerAnswers) => {
-  html += 
-  `   <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">${engineerAnswers.Name}</h5>
-    <h4 class="card-title">Manager</h4>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Email: <a href="mailto:${engineerAnswers.Email}" class="card-link">${engineerAnswers.Email}</a></li>
-    <li class="list-group-item">Github: <a href="https://github.com/${engineerAnswers.Github}" class="card-link">https://github.com/${engineerAnswers.Github}</a></li>
-    <li class="list-group-item">Employee ID: ${engineerAnswers.EmployeeID}</li>
-  <li class="list-group-item">Office Number: ${engineerAnswers.OfficeNumber}</li>
-  </ul>
-</div>`
+`;
+//   engineers.foreach((engineerAnswers) => {
+//     html += `   <div class="card" style="width: 18rem;">
+//   <div class="card-body">
+//     <h5 class="card-title">${engineerAnswers.Name}</h5>
+//     <h4 class="card-title">Manager</h4>
+//   </div>
+//   <ul class="list-group list-group-flush">
+//     <li class="list-group-item">Email: <a href="mailto:${engineerAnswers.Email}" class="card-link">${engineerAnswers.Email}</a></li>
+//     <li class="list-group-item">Github: <a href="https://github.com/${engineerAnswers.Github}" class="card-link">https://github.com/${engineerAnswers.Github}</a></li>
+//     <li class="list-group-item">Employee ID: ${engineerAnswers.EmployeeID}</li>
+//   <li class="list-group-item">Office Number: ${engineerAnswers.OfficeNumber}</li>
+//   </ul>
+// </div>`;
+//   });
 
-})
+//   interns.foreach((internAnswers) => {
+//     html += `   <div class="card" style="width: 18rem;">
+//   <div class="card-body">
+//     <h5 class="card-title">${internAnswers.Name}</h5>
+//     <h4 class="card-title">Manager</h4>
+//   </div>
+//   <ul class="list-group list-group-flush">
+//     <li class="list-group-item">Email: <a href="mailto:${internAnswers.Email}" class="card-link">${internAnswers.Email}</a></li>
+//     <li class="list-group-item">Github: <a href="https://github.com/${internAnswers.Github}" class="card-link">https://github.com/${internAnswers.Github}</a></li>
+//     <li class="list-group-item">Employee ID: ${internAnswers.EmployeeID}</li>
+//   <li class="list-group-item">Office Number: ${internAnswers.OfficeNumber}</li>
+//   </ul>
+// </div>`;
+//   });
 
-interns.foreach( (internAnswers) => {
-  html += 
-  `   <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">${internAnswers.Name}</h5>
-    <h4 class="card-title">Manager</h4>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Email: <a href="mailto:${internAnswers.Email}" class="card-link">${internAnswers.Email}</a></li>
-    <li class="list-group-item">Github: <a href="https://github.com/${internAnswers.Github}" class="card-link">https://github.com/${internAnswers.Github}</a></li>
-    <li class="list-group-item">Employee ID: ${internAnswers.EmployeeID}</li>
-  <li class="list-group-item">Office Number: ${internAnswers.OfficeNumber}</li>
-  </ul>
-</div>`
-
-})
-
-html += `
+  html += `
     </body>
   </html>
   
 `;
-}
-const init = async () => {
-  const ManagerAnswers = await promptUser()
-    const engineers = [];
-    const interns = [];
-    const manager = [];
-
-    // Flag that tells our looping program when to terminate
-    let teamComplete = false;
- 
-    // await promptUser().then(async (answers) => {
-    //   console.log(answers);
-let currentRole = ManagerAnswers.Role
-manager.push(ManagerAnswers);
-    while (!teamComplete) {
-      // Ask the user who the new employee is
-      switch (currentRole) {
-          case "Engineer":
-            const engineerAnswers = await promptEngineer()
-              console.log(engineerAnswers);
-              currentRole = engineerAnswers.Role
-              engineers.push(engineerAnswers);
-            break;
-          case "Intern":
-            // ...
-           const internAnswers = await promptIntern()
-           currentRole = internAnswers.Role
-              interns.push(internAnswers);
-            break;
-          case "Team finished":
-            // End the program (by breaking out of the while loop)
-            teamComplete = true;
-            break;
-        }
-      };
-      fs.writeFile(`index-${Date.now()}.html`, generatehtml(ManagerAnswers, internAnswers, engineerAnswers), (err) => {
-        // console.log(answers);
-        console.log(html);
-        if (err) throw err;
-  
-        console.log("The file has been saved!");
-      })
 };
+const employees = [];
+const init = async () => {
+  const ManagerAnswers = await promptUser();
+  const engineers = [];
+  const interns = [];
+  const manager = [];
 
+  // Flag that tells our looping program when to terminate
+  let teamComplete = false;
+
+  // await promptUser().then(async (answers) => {
+  //   console.log(answers);
+  let currentRole = ManagerAnswers.Role;
+  manager.push(ManagerAnswers);
+  while (!teamComplete) {
+    // Ask the user who the new employee is
+    switch (currentRole) {
+      case "Engineer":
+        const engineerAnswers = await promptEngineer();
+
+        currentRole = engineerAnswers.Role;
+        engineers.push(engineerAnswers);
+        break;
+      case "Intern":
+        // ...
+        const internAnswers = await promptIntern();
+        currentRole = internAnswers.Role;
+        interns.push(internAnswers);
+        break;
+      case "Team finished":
+        // End the program (by breaking out of the while loop)
+        teamComplete = true;
+        break;
+    }
+  }
+  fs.writeFile(
+    `index-${Date.now()}.html`,
+    generatehtml(answers),
+    (err) => {
+      // console.log(answers);
+
+      if (err) throw err;
+
+      console.log("The file has been saved!");
+    }
+  );
+  const newManager = new Manager(
+    manager.Name,
+    manager.EmployeeID,
+    manager.Email,
+    "Manager",
+    manager.OfficeNumber
+  );
+  const newEmployee0 = new Employee(
+    manager.Name,
+    manager.EmployeeID,
+    manager.Email,
+    "Manager",
+    manager.OfficeNumber
+  );
+};
 
 init();

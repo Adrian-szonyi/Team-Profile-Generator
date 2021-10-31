@@ -4,7 +4,7 @@ const Employee = require('../lib/Employee');
 describe("Employee class", () => {
 it("Creates a new object when initialised", () => {
     const FullName = "Adrian";
-    const id = "243"
+    const id = 222
     const email = "aszonyi49@gmail.com";
     const result = new Employee(FullName, id, email);
 
@@ -14,7 +14,7 @@ it("Creates a new object when initialised", () => {
 })
 it("getRole() returns Employee object", () => {
     const FullName = "Adrian";
-    const id = "232"
+    const id = 232
     const email = "aszonyi49@gmail.com"
     const employee = new Employee(FullName, id, email)
     const result = employee.getemail();
