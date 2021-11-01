@@ -65,6 +65,11 @@ const promptEngineer = () => {
     },
     {
       type: "input",
+      name: "EmployeeID",
+      message: "What is their Employee ID?",
+    },
+    {
+      type: "input",
       name: "Email",
       message: "What is their email address?",
     },
@@ -97,13 +102,13 @@ const promptIntern = () => {
     },
     {
       type: "input",
-      name: "School",
-      message: "What school do they go to?",
+      name: "EmployeeID",
+      message: "What is their Employee ID?",
     },
     {
       type: "input",
-      name: "Github",
-      message: "What is their Github username?",
+      name: "School",
+      message: "What school do they go to?",
     },
     {
       type: "list",
@@ -167,39 +172,46 @@ const generatehtml = (answers) => {
     </ul>
   </div>
 `;
-//   engineers.foreach((engineerAnswers) => {
-//     html += `   <div class="card" style="width: 18rem;">
-//   <div class="card-body">
-//     <h5 class="card-title">${engineerAnswers.Name}</h5>
-//     <h4 class="card-title">Manager</h4>
-//   </div>
-//   <ul class="list-group list-group-flush">
-//     <li class="list-group-item">Email: <a href="mailto:${engineerAnswers.Email}" class="card-link">${engineerAnswers.Email}</a></li>
-//     <li class="list-group-item">Github: <a href="https://github.com/${engineerAnswers.Github}" class="card-link">https://github.com/${engineerAnswers.Github}</a></li>
-//     <li class="list-group-item">Employee ID: ${engineerAnswers.EmployeeID}</li>
-//   <li class="list-group-item">Office Number: ${engineerAnswers.OfficeNumber}</li>
-//   </ul>
-// </div>`;
-//   });
 
-//   interns.foreach((internAnswers) => {
-//     html += `   <div class="card" style="width: 18rem;">
-//   <div class="card-body">
-//     <h5 class="card-title">${internAnswers.Name}</h5>
-//     <h4 class="card-title">Manager</h4>
-//   </div>
-//   <ul class="list-group list-group-flush">
-//     <li class="list-group-item">Email: <a href="mailto:${internAnswers.Email}" class="card-link">${internAnswers.Email}</a></li>
-//     <li class="list-group-item">Github: <a href="https://github.com/${internAnswers.Github}" class="card-link">https://github.com/${internAnswers.Github}</a></li>
-//     <li class="list-group-item">Employee ID: ${internAnswers.EmployeeID}</li>
-//   <li class="list-group-item">Office Number: ${internAnswers.OfficeNumber}</li>
-//   </ul>
-// </div>`;
-//   });
+engineers.forEach((engineers) => {
 
+html += `
+<div class="card" style="width: 18rem;">
+<div class="card-body">
+  <h5 class="card-title">${engineers.Name}</h5>
+  <h4 class="card-title">Manager</h4>
+</div>
+<ul class="list-group list-group-flush">
+  <li class="list-group-item">Email: <a href="mailto:${engineers.Email}" class="card-link">${engineers.Email}</a></li>
+  <li class="list-group-item">Github: <a href="https://github.com/${engineers.Github}" class="card-link">https://github.com/${engineers.Github}</a></li>
+  <li class="list-group-item">Employee ID: ${engineers.EmployeeID}</li>
+</ul>
+</div>
+`;
+return html
+});
+
+interns.forEach((interns) => {
+
+  html += `
+  <div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">${interns.Name}</h5>
+    <h4 class="card-title">Manager</h4>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Email: <a href="mailto:${interns.Email}" class="card-link">${interns.Email}</a></li>
+    <li class="list-group-item">Employee ID: ${interns.EmployeeID}</li>
+    <li class="list-group-item">School: ${interns.School}</li>
+  </ul>
+  </div>
+  `;
+  return html
+  });
   html += `
     </body>
   </html>`;
+  return html
 };
 const employees = [];
 const init = async () => {
@@ -238,25 +250,25 @@ const init = async () => {
   }
 
   
-  fs.writeFile(`index-${Date.now()}.html`, generatehtml(answers), (err) => {
+  fs.writeFile(`index-${Date.now()}.html`, generatehtml(answers, engineers, interns), (err) => {
     if (err) throw err;
 
       console.log("The file has been saved!");
   })
   
   const newManager = new Manager(
-    manager.Name,
-    manager.EmployeeID,
-    manager.Email,
+    answers.Name,
+    answers.EmployeeID,
+    answers.Email,
     "Manager",
-    manager.OfficeNumber
+    answers.OfficeNumber
   );
   const newEmployee0 = new Employee(
-    manager.Name,
-    manager.EmployeeID,
-    manager.Email,
+    answers.Name,
+    answers.EmployeeID,
+    answers.Email,
     "Manager",
-    manager.OfficeNumber
+    answers.OfficeNumber
   );
 };
 
