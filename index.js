@@ -245,13 +245,14 @@ const init = async () => {
     "Manager",
     answers.OfficeNumber
   );
-  const newEmployee0 = new Employee(
+  const newEmployee = new Employee(
     answers.Name,
     answers.EmployeeID,
     answers.Email,
     "Manager",
     answers.OfficeNumber
   );
+
 };
 
 init();
