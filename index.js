@@ -36,7 +36,6 @@ const promptUser = () => {
   ]);
 };
 
-
 const promptEngineer = () => {
   return inquirer.prompt([
     {
@@ -100,12 +99,10 @@ const promptIntern = () => {
   ]);
 };
 
-
 const generatehtml = (answers, engineers, interns) => {
   let html = "";
 
-  html += 
-  `
+  html += `
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -152,9 +149,8 @@ const generatehtml = (answers, engineers, interns) => {
   </div>
 `;
 
-engineers.forEach((engineers) => {
-
-html += `
+  engineers.forEach((engineers) => {
+    html += `
 <div class="card" style="width: 18rem;">
 <div class="card-body">
   <h5 class="card-title">${engineers.Name}</h5>
@@ -170,12 +166,10 @@ html += `
 </ul>
 </div>
 `;
+  });
 
-});
-
-interns.forEach((interns) => {
-
-  html += `
+  interns.forEach((interns) => {
+    html += `
   <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${interns.Name}</h5>
@@ -191,19 +185,19 @@ interns.forEach((interns) => {
   </ul>
   </div>
   `;
-  
   });
   html += `
     </body>
   </html>`;
-  return html
+  return html;
 };
-const employees = [];
+
+const engineers = [];
+const interns = [];
+const manager = [];
+
 const init = async () => {
   const answers = await promptUser();
-  const engineers = [];
-  const interns = [];
-  const manager = [];
 
   let teamComplete = false;
 
@@ -231,39 +225,40 @@ const init = async () => {
     }
   }
 
-  
-  fs.writeFile(`index-${Date.now()}.html`, generatehtml(answers, engineers, interns), (err) => {
-    if (err) throw err;
+  fs.writeFile(
+    `index-${Date.now()}.html`,
+    generatehtml(answers, engineers, interns),
+    (err) => {
+      if (err) throw err;
 
       console.log("The file has been saved!");
-  })
+    }
+  );
 
-let newintern = interns.forEach((interns) => {
-const Fullname = interns.Name
-const id = interns.EmployeeID
-const email = interns.Email
-const role = "Intern"
-const school = interns.school
-newintern = new Intern(Fullname, id, email, role, school)
-
-})
-
-let newengineer = engineers.forEach((engineers) => {
-  const Fullname = engineers.Name
-  const id = engineers.EmployeeID
-  const email = engineers.Email
-  const role = "Engineer"
-  const github = engineers.Github
-  newengineer = new Engineer(Fullname, id, email, role, github)
-
-})
-let newManager = new Manager(
-  answers.Name,
-  answers.EmployeeID,
-  answers.Email,
-  "Manager",
-  answers.OfficeNumber
-);
+  const newmanager = new Manager(
+    answers.Name,
+    answers.EmployeeID,
+    answers.email,
+    "Manager",
+    answers.Github
+  );
+  manager.push(newmanager);
+  const newengineer = new Engineer(
+    engineers.Name,
+    engineers.EmployeeID,
+    engineers.email,
+    "Engineer",
+    engineers.Github
+  );
+  engineers.push(newengineer);
+  const newintern = new Intern(
+    interns.Name,
+    interns.EmployeeID,
+    interns.email,
+    "Intern",
+    interns.School
+  );
+  interns.push(newintern);
 
   // engineers = new Engineer(Fullname, id, email, role, github)
   // interns = new Intern(Fullname, id, email, role, school)
