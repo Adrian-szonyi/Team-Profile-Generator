@@ -36,25 +36,6 @@ const promptUser = () => {
   ]);
 };
 
-// function generateHtml(engineers, interns, managers) {
-//   function generateEngineer(engineer) {
-//     return `
-//         <div class="card" style="width: 18rem;">
-//         <div class="card-body">
-//           <h5 class="card-title">${engineer.Name}</h5>
-//           <h4 class="card-title">Manager</h4>
-//         </div>
-//         <ul class="list-group list-group-flush">
-//           <li class="list-group-item">Email: <a href="mailto:${engineer.Email}" class="card-link">${engineer.Email}</a></li>
-//           <li class="list-group-item">Github: <a href="https://github.com/${engineer.Github}" class="card-link">https://github.com/${engineer.Github}</a></li>
-//           <li class="list-group-item">Employee ID: ${engineer.EmployeeID}</li>
-//         <li class="list-group-item">Office Number: ${engineer.OfficeNumber}</li>
-//         </ul>
-//       </div>
-//     `;
-//   }
-
-// }
 
 const promptEngineer = () => {
   return inquirer.prompt([
@@ -119,13 +100,8 @@ const promptIntern = () => {
   ]);
 };
 
-// Create arrays to store employee information
 
-// While the user has not selected 'Finished with the Team'...
-
-// fs.writeFileSync("output.html", generateHtml(engineers, interns, managers));
-
-const generatehtml = (answers) => {
+const generatehtml = (answers, engineers, interns) => {
   let html = "";
 
   html += 
@@ -159,10 +135,13 @@ const generatehtml = (answers) => {
       <title>Team Profile Generator</title>
     </head>
     <body>
-    <div class="card" style="width: 18rem;">
+    <div class="card-Manager" style="width: 18rem;">
     <div class="card-body">
       <h5 class="card-title">${answers.Name}</h5>
-      <h4 class="card-title">Manager</h4>
+      <div class="titleimage">
+        <img src = './images/coffe-cup.png'>
+        <h4 class="card-title">Manager</h4>
+      </div>
     </div>
     <ul class="list-group list-group-flush">
       <li class="list-group-item">Email: <a href="mailto:${answers.Email}" class="card-link">${answers.Email}</a></li>
@@ -179,7 +158,10 @@ html += `
 <div class="card" style="width: 18rem;">
 <div class="card-body">
   <h5 class="card-title">${engineers.Name}</h5>
-  <h4 class="card-title">Manager</h4>
+  <div class="titleimage">
+        <img src = './images/glasses.png'>
+        <h4 class="card-title">Engineer</h4>
+      </div>
 </div>
 <ul class="list-group list-group-flush">
   <li class="list-group-item">Email: <a href="mailto:${engineers.Email}" class="card-link">${engineers.Email}</a></li>
@@ -188,7 +170,7 @@ html += `
 </ul>
 </div>
 `;
-return html
+
 });
 
 interns.forEach((interns) => {
@@ -197,7 +179,10 @@ interns.forEach((interns) => {
   <div class="card" style="width: 18rem;">
   <div class="card-body">
     <h5 class="card-title">${interns.Name}</h5>
-    <h4 class="card-title">Manager</h4>
+    <div class="titleimage">
+    <img src = './images/cap.png'>
+    <h4 class="card-title">Intern</h4>
+  </div>
   </div>
   <ul class="list-group list-group-flush">
     <li class="list-group-item">Email: <a href="mailto:${interns.Email}" class="card-link">${interns.Email}</a></li>
@@ -206,7 +191,7 @@ interns.forEach((interns) => {
   </ul>
   </div>
   `;
-  return html
+  
   });
   html += `
     </body>
@@ -220,11 +205,8 @@ const init = async () => {
   const interns = [];
   const manager = [];
 
-  // Flag that tells our looping program when to terminate
   let teamComplete = false;
 
-  // await promptUser().then(async (answers) => {
-  //   console.log(answers);
   let currentRole = answers.Role;
   manager.push(answers);
   while (!teamComplete) {
